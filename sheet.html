@@ -3,13 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <title>Sheet Display</title>
+
 <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
+
 <style>
+
 body{
     margin:0;
     padding:20px;
     font-family:"Lexend",sans-serif;
+
     background:
     radial-gradient(circle at top,
     #02101d 0%,
@@ -17,31 +20,46 @@ body{
     #00060f 100%);
 }
 
+/* OUTER WRAPPER */
+
 .table-wrapper{
-    border-radius:22px;
-    padding:8px;
-    background:rgba(0,240,255,0.12);
-    box-shadow:0 0 30px rgba(0,200,255,0.5);
-    animation:outerGlow 3s infinite alternate;
+    border-radius:24px;
+    padding:10px;
+
+    background:
+    rgba(0,240,255,0.12);
+
+    box-shadow:
+    0 0 24px rgba(0,200,255,0.45);
+
+    animation:
+    outerGlow 3s infinite alternate;
 }
 
 @keyframes outerGlow{
 
     from{
-        box-shadow:0 0 16px rgba(0,240,255,0.3);
+        box-shadow:
+        0 0 16px rgba(0,240,255,0.3);
     }
 
     to{
-        box-shadow:0 0 36px rgba(0,240,255,1);
+        box-shadow:
+        0 0 36px rgba(0,240,255,0.95);
     }
 
 }
 
+/* TABLE */
+
 table{
     width:100%;
-    border-collapse:collapse;
+    border-collapse:separate;
+    border-spacing:8px;
     table-layout:fixed;
 }
+
+/* COLUMN WIDTHS */
 
 col.sno{
     width:5%;
@@ -52,42 +70,106 @@ col.team{
 }
 
 col.price{
-    width:3%;
+    width:4%;
 }
+
+/* HEADERS */
 
 th{
     padding:14px;
-    border-radius:12px;
+
+    border-radius:18px;
+
     border:2px solid rgba(0,240,255,0.45);
+
     color:#ffffff;
+
     font-weight:700;
-    text-shadow:0 0 10px black;
+
+    text-shadow:
+    0 0 10px black;
+
     font-size:22px;
+
     text-align:center;
 }
 
 th.snoHeader{
-    background:rgba(0,0,0,0.45);
+
+    background:
+    rgba(0,0,0,0.45);
+
     color:#00eaff;
-    text-shadow:0 0 10px #00eaff;
+
+    text-shadow:
+    0 0 10px #00eaff;
 }
+
+/* CELLS */
 
 td{
-    padding:12px;
-    border-radius:12px;
-    border:2px solid rgba(0,240,255,0.25);
-    background:rgba(0,0,0,0.35);
+
+    padding:14px;
+
+    border-radius:18px;
+
+    border:
+    2px solid rgba(0,240,255,0.18);
+
+    background:
+    rgba(0,0,0,0.35);
+
     text-align:center;
+
     color:#e3faff;
+
     font-size:28px;
-    transition:0.2s;
+
+    transition:0.25s;
 }
+
+/* ROW GLOW */
 
 tr{
-    box-shadow:0 0 12px rgba(0,230,255,0.25);
+    box-shadow:
+    0 0 10px rgba(0,230,255,0.14);
 }
 
+/* TEAM CELLS */
+
 .teamCell{
+
+    color:white !important;
+
+    font-weight:700;
+
+    border-radius:18px !important;
+
+    animation:
+    teamGlow 1.2s infinite alternate;
+
+    position:relative;
+
+    overflow:hidden;
+}
+
+/* GLOW PULSE */
+
+@keyframes teamGlow{
+
+    0%{
+        filter:brightness(0.92);
+        transform:scale(1);
+    }
+
+    100%{
+        filter:brightness(1.22);
+        transform:scale(1.01);
+    }
+
+}
+
+/* HIDDEN ROW */
 
 .hidden-row td{
     padding:0;
@@ -95,6 +177,7 @@ tr{
     border:none;
     background:transparent;
 }
+
 </style>
 </head>
 
@@ -155,6 +238,7 @@ tr{
 </div>
 
 <!-- FIREBASE -->
+
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
@@ -163,30 +247,55 @@ tr{
 /* FIREBASE */
 
 firebase.initializeApp({
-  apiKey: "AIzaSyCX6FYo5gVgCmds7Xf63xF-Xcg6eIutQmk",
-  authDomain: "auction-71c28.firebaseapp.com",
-  databaseURL: "https://auction-71c28-default-rtdb.asia-southeast1.firebasedatabase.app",
-  projectId: "auction-71c28",
-  storageBucket: "auction-71c28.firebasestorage.app",
-  messagingSenderId: "92883040612",
-  appId: "1:92883040612:web:473f540c99efc20e8d2271"
+
+  apiKey:
+  "AIzaSyCX6FYo5gVgCmds7Xf63xF-Xcg6eIutQmk",
+
+  authDomain:
+  "auction-71c28.firebaseapp.com",
+
+  databaseURL:
+  "https://auction-71c28-default-rtdb.asia-southeast1.firebasedatabase.app",
+
+  projectId:
+  "auction-71c28",
+
+  storageBucket:
+  "auction-71c28.firebasestorage.app",
+
+  messagingSenderId:
+  "92883040612",
+
+  appId:
+  "1:92883040612:web:473f540c99efc20e8d2271"
+
 });
 
-const db = firebase.database();
+const db =
+firebase.database();
 
 /* TEAM COLORS */
 
 const teamColors = {
 
   1:{ bg:"#1565C0", glow:"rgba(21,101,192,0.95)" },
+
   2:{ bg:"#C62828", glow:"rgba(198,40,40,0.95)" },
+
   3:{ bg:"#2E7D32", glow:"rgba(46,125,50,0.95)" },
+
   4:{ bg:"#6A1B9A", glow:"rgba(106,27,154,0.95)" },
+
   5:{ bg:"#EF6C00", glow:"rgba(239,108,0,0.95)" },
+
   6:{ bg:"#00838F", glow:"rgba(0,131,143,0.95)" },
+
   7:{ bg:"#AD1457", glow:"rgba(173,20,87,0.95)" },
+
   8:{ bg:"#5D4037", glow:"rgba(93,64,55,0.95)" },
+
   9:{ bg:"#283593", glow:"rgba(40,53,147,0.95)" },
+
   10:{ bg:"#9E9D24", glow:"rgba(158,157,36,0.95)" }
 
 };
@@ -195,7 +304,8 @@ const teamColors = {
 
 db.ref("teams").on("value", snap=>{
 
-    const teams = snap.val() || {};
+    const teams =
+    snap.val() || {};
 
     for(let t=1;t<=10;t++){
 
@@ -209,14 +319,17 @@ db.ref("teams").on("value", snap=>{
         teamColors[t].bg;
 
         h.style.boxShadow =
-        `0 0 14px ${teamColors[t].glow},
-         0 0 24px ${teamColors[t].glow}`;
+        `
+        0 0 14px ${teamColors[t].glow},
+        0 0 24px ${teamColors[t].glow}
+        `;
 
         h.style.textShadow =
-        `0 0 8px ${teamColors[t].glow},
-         0 0 14px ${teamColors[t].glow},
-         0 0 22px ${teamColors[t].glow}`;
-
+        `
+        0 0 8px ${teamColors[t].glow},
+        0 0 14px ${teamColors[t].glow},
+        0 0 22px ${teamColors[t].glow}
+        `;
     }
 
 });
@@ -225,6 +338,8 @@ db.ref("teams").on("value", snap=>{
 
 const sheetURL =
 "https://docs.google.com/spreadsheets/d/1uww5Uq0-kya9gM4pTWFgp79n4lVgeH0Nr6C_v7FOjQ4/export?format=csv&gid=0";
+
+/* LOAD DATA */
 
 async function loadData(){
 
@@ -324,14 +439,20 @@ async function loadData(){
                         col.bg;
 
                         cell.style.boxShadow =
-                        `0 0 14px ${col.glow},
-                         0 0 22px ${col.glow},
-                         inset 0 0 10px rgba(255,255,255,0.08)`;
+                        `
+                        0 0 10px ${col.glow},
+                        0 0 18px ${col.glow},
+                        0 0 30px ${col.glow},
+                        inset 0 0 12px rgba(255,255,255,0.12)
+                        `;
 
                         cell.style.textShadow =
-                        `0 0 8px ${col.glow},
-                         0 0 14px ${col.glow},
-                         0 0 22px ${col.glow}`;
+                        `
+                        0 0 6px white,
+                        0 0 12px ${col.glow},
+                        0 0 20px ${col.glow},
+                        0 0 28px ${col.glow}
+                        `;
 
                     });
 
@@ -355,7 +476,11 @@ async function loadData(){
 
 }
 
+/* INITIAL LOAD */
+
 loadData();
+
+/* AUTO REFRESH */
 
 setInterval(loadData,5000);
 
