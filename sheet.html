@@ -89,7 +89,7 @@ th{
     text-shadow:
     0 0 10px black;
 
-    font-size:28px;
+    font-size:22px;
 
     text-align:center;
 }
@@ -121,7 +121,7 @@ td{
 
     text-align:center;
 
-    color:#e3faff;
+    color:#ffffff;
 
     font-size:28px;
 
@@ -163,7 +163,7 @@ tr{
     }
 
     100%{
-        filter:brightness(1.22);
+        filter:brightness(1.12);
         transform:scale(1.01);
     }
 
@@ -326,9 +326,7 @@ db.ref("teams").on("value", snap=>{
 
         h.style.textShadow =
         `
-        0 0 8px ${teamColors[t].glow},
-        0 0 14px ${teamColors[t].glow},
-        0 0 22px ${teamColors[t].glow}
+        0 0 8px rgba(0,0,0,0.5)
         `;
     }
 
@@ -441,17 +439,14 @@ async function loadData(){
                         cell.style.boxShadow =
                         `
                         0 0 10px ${col.glow},
-                        0 0 18px ${col.glow},
-                        0 0 30px ${col.glow},
-                        inset 0 0 12px rgba(255,255,255,0.12)
+                        0 0 20px ${col.glow},
+                        0 0 36px ${col.glow},
+                        inset 0 0 10px rgba(255,255,255,0.06)
                         `;
 
                         cell.style.textShadow =
                         `
-                        0 0 6px white,
-                        0 0 12px ${col.glow},
-                        0 0 20px ${col.glow},
-                        0 0 28px ${col.glow}
+                        0 0 2px rgba(0,0,0,0.35)
                         `;
 
                     });
