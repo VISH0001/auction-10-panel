@@ -25,6 +25,7 @@ body{
 }
 
 @keyframes outerGlow{
+
     from{
         box-shadow:0 0 16px rgba(0,240,255,0.3);
     }
@@ -32,6 +33,7 @@ body{
     to{
         box-shadow:0 0 36px rgba(0,240,255,1);
     }
+
 }
 
 table{
@@ -86,8 +88,7 @@ tr{
 
 .teamCell{
     color:white !important;
-    font-weight:600;
-    text-shadow:0 0 6px black;
+    font-weight:700;
 }
 
 .hidden-row td{
@@ -179,20 +180,20 @@ const db = firebase.database();
 
 const teamColors = {
 
-  1:{ bg:"#1565C0", glow:"rgba(21,101,192,0.25)" },
-  2:{ bg:"#C62828", glow:"rgba(198,40,40,0.25)" },
-  3:{ bg:"#2E7D32", glow:"rgba(46,125,50,0.25)" },
-  4:{ bg:"#6A1B9A", glow:"rgba(106,27,154,0.25)" },
-  5:{ bg:"#EF6C00", glow:"rgba(239,108,0,0.25)" },
-  6:{ bg:"#00838F", glow:"rgba(0,131,143,0.25)" },
-  7:{ bg:"#AD1457", glow:"rgba(173,20,87,0.25)" },
-  8:{ bg:"#5D4037", glow:"rgba(93,64,55,0.25)" },
-  9:{ bg:"#283593", glow:"rgba(40,53,147,0.25)" },
-  10:{ bg:"#9E9D24", glow:"rgba(158,157,36,0.25)" }
+  1:{ bg:"#1565C0", glow:"rgba(21,101,192,0.95)" },
+  2:{ bg:"#C62828", glow:"rgba(198,40,40,0.95)" },
+  3:{ bg:"#2E7D32", glow:"rgba(46,125,50,0.95)" },
+  4:{ bg:"#6A1B9A", glow:"rgba(106,27,154,0.95)" },
+  5:{ bg:"#EF6C00", glow:"rgba(239,108,0,0.95)" },
+  6:{ bg:"#00838F", glow:"rgba(0,131,143,0.95)" },
+  7:{ bg:"#AD1457", glow:"rgba(173,20,87,0.95)" },
+  8:{ bg:"#5D4037", glow:"rgba(93,64,55,0.95)" },
+  9:{ bg:"#283593", glow:"rgba(40,53,147,0.95)" },
+  10:{ bg:"#9E9D24", glow:"rgba(158,157,36,0.95)" }
 
 };
 
-/* TEAM NAMES FROM FIREBASE */
+/* TEAM NAMES */
 
 db.ref("teams").on("value", snap=>{
 
@@ -210,7 +211,13 @@ db.ref("teams").on("value", snap=>{
         teamColors[t].bg;
 
         h.style.boxShadow =
-        `0 0 14px ${teamColors[t].glow}`;
+        `0 0 14px ${teamColors[t].glow},
+         0 0 24px ${teamColors[t].glow}`;
+
+        h.style.textShadow =
+        `0 0 8px ${teamColors[t].glow},
+         0 0 14px ${teamColors[t].glow},
+         0 0 22px ${teamColors[t].glow}`;
 
     }
 
@@ -319,12 +326,14 @@ async function loadData(){
                         col.bg;
 
                         cell.style.boxShadow =
-                        `0 0 14px ${col.glow}`;
+                        `0 0 14px ${col.glow},
+                         0 0 22px ${col.glow},
+                         inset 0 0 10px rgba(255,255,255,0.08)`;
 
                         cell.style.textShadow =
                         `0 0 8px ${col.glow},
                          0 0 14px ${col.glow},
-                         0 0 20px ${col.glow}`;
+                         0 0 22px ${col.glow}`;
 
                     });
 
