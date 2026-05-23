@@ -94,14 +94,19 @@ body{
   margin:10px auto;
   padding:12px;
   border-radius:10px;
+
   background:#220909;
   color:#ffb3b3;
+
   font-weight:700;
   text-align:center;
-  min-height:24px;
+
+  height:48px;
   box-sizing:border-box;
-  opacity:0;
-  transition:opacity 0.2s;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
 }
 
 /* Team grid */
@@ -563,13 +568,9 @@ function showNotice(msg){
 
   box.innerText = msg;
 
-  box.style.opacity = "1";
-
   clearTimeout(window.noticeTimer);
 
   window.noticeTimer = setTimeout(()=>{
-
-    box.style.opacity = "0";
 
     box.innerText = "";
 
