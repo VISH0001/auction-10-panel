@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <title>Owner Bid Button</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
+
 <style>
 :root{
   --bg:#00121c;
@@ -50,7 +51,9 @@ html,body{
   animation: neonPulse 1.6s infinite ease-in-out;
 }
 
-#bidBtn:active{ transform:scale(0.96); }
+#bidBtn:active{
+  transform:scale(0.96);
+}
 
 /* Info Panel */
 #infoPanel{
@@ -64,26 +67,63 @@ html,body{
   border-top:2px solid rgba(0,64,96,0.6);
 }
 
-.label{ font-size:14px; color:var(--muted); }
-.value{ font-size:20px; font-weight:700; }
-.bigvalue{ font-size:28px; font-weight:800; }
-.full{ grid-column:1/-1; text-align:center; }
+.label{
+  font-size:14px;
+  color:var(--muted);
+}
 
-#keyText{ font-size:14px; color:#9ffcff; }
-#myMax{ font-size:18px; font-weight:700; color:#9ffcff; }
-#rejectionMsg{ color:#ff8a8a; font-weight:700; }
-#error{ color:#ff6f6f; font-weight:700; }
+.value{
+  font-size:20px;
+  font-weight:700;
+}
+
+.bigvalue{
+  font-size:28px;
+  font-weight:800;
+}
+
+.full{
+  grid-column:1/-1;
+  text-align:center;
+}
+
+#keyText{
+  font-size:14px;
+  color:#9ffcff;
+}
+
+#myMax{
+  font-size:18px;
+  font-weight:700;
+  color:#9ffcff;
+}
+
+#error{
+  color:#ff6f6f;
+  font-weight:700;
+}
 
 /* Button Glow Animation */
 @keyframes neonPulse{
-  0%{ filter:brightness(0.9); }
-  50%{ filter:brightness(1.15); }
-  100%{ filter:brightness(0.9); }
+
+  0%{
+    filter:brightness(0.9);
+  }
+
+  50%{
+    filter:brightness(1.15);
+  }
+
+  100%{
+    filter:brightness(0.9);
+  }
+
 }
 </style>
 </head>
 
 <body>
+
 <div class="wrap">
 
   <div id="bigButtonArea">
@@ -91,14 +131,24 @@ html,body{
   </div>
 
   <div id="infoPanel">
-    <div class="label">Your Team</div><div id="ownerTeam" class="value">—</div>
-    <div class="label">Current Highest Bid</div><div id="currentBid" class="bigvalue">—</div>
-    <div class="label">Highest Bidding Team</div><div id="currentTeam" class="value">—</div>
-    <div class="label">Your Max Bid</div><div id="myMax">—</div>
-    <div class="label">(Secure Key)</div><div id="keyText">—</div>
+
+    <div class="label">Your Team</div>
+    <div id="ownerTeam" class="value">—</div>
+
+    <div class="label">Current Highest Bid</div>
+    <div id="currentBid" class="bigvalue">—</div>
+
+    <div class="label">Highest Bidding Team</div>
+    <div id="currentTeam" class="value">—</div>
+
+    <div class="label">Your Max Bid</div>
+    <div id="myMax">—</div>
+
+    <div class="label">(Secure Key)</div>
+    <div id="keyText">—</div>
 
     <div id="error" class="full"></div>
-    <div id="rejectionMsg" class="full"></div>
+
   </div>
 
 </div>
@@ -108,6 +158,7 @@ html,body{
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
 <script>
+
 /* Firebase config */
 const firebaseConfig = {
   apiKey: "AIzaSyCX6FYo5gVgCmds7Xf63xF-Xcg6eIutQmk",
@@ -118,109 +169,177 @@ const firebaseConfig = {
   messagingSenderId: "92883040612",
   appId: "1:92883040612:web:473f540c99efc20e8d2271"
 };
+
 firebase.initializeApp(firebaseConfig);
+
 const db = firebase.database();
 
-function el(x){ return document.getElementById(x); }
+function el(x){
+  return document.getElementById(x);
+}
 
-/* REAL TEAM COLORS (YOUR FINAL SET) */
+/* TEAM COLORS */
 const TEAM_COLORS = {
-  1:{ base:"#0b4d6b", glow:"rgba(11,77,107,0.25)" },
-  2:{ base:"#5b1b1b", glow:"rgba(91,27,27,0.25)" },
-  3:{ base:"#8a5c00", glow:"rgba(138,92,0,0.25)" },
-  4:{ base:"#3e1364", glow:"rgba(62,19,100,0.25)" },
-  5:{ base:"#7c2e00", glow:"rgba(124,46,0,0.25)" },
-  6:{ base:"#00416a", glow:"rgba(0,65,106,0.25)" },
-  7:{ base:"#6b0041", glow:"rgba(107,0,65,0.25)" },
-  8:{ base:"#7a4b00", glow:"rgba(122,75,0,0.25)" }
+  1:{ base:"#1565C0", glow:"rgba(21,101,192,0.25)" },
+  2:{ base:"#C62828", glow:"rgba(198,40,40,0.25)" },
+  3:{ base:"#2E7D32", glow:"rgba(46,125,50,0.25)" },
+  4:{ base:"#6A1B9A", glow:"rgba(106,27,154,0.25)" },
+  5:{ base:"#EF6C00", glow:"rgba(239,108,0,0.25)" },
+  6:{ base:"#00838F", glow:"rgba(0,131,143,0.25)" },
+  7:{ base:"#AD1457", glow:"rgba(173,20,87,0.25)" },
+  8:{ base:"#5D4037", glow:"rgba(93,64,55,0.25)" },
+  9:{ base:"#283593", glow:"rgba(40,53,147,0.25)" },
+  10:{ base:"#9E9D24", glow:"rgba(158,157,36,0.25)" }
 };
 
 function lockBtn(){
+
   el('bidBtn').disabled = true;
+
   el('bidBtn').style.opacity = 0.5;
+
 }
 
 /* GET KEY FROM URL */
 const params = new URLSearchParams(window.location.search);
+
 const key = params.get('key');
+
 el('keyText').innerText = key || "none";
 
 if(!key){
-  el('error').innerText = "No secure key found.";
+
+  el('error').innerText =
+  "No secure key found.";
+
   lockBtn();
+
 }
 
 let myTeam = null;
 
-/* Validate key -> load team */
+/* Validate key */
 db.ref("ownerKeys/" + key).once("value").then(s=>{
+
   const t = s.val();
+
   if(!t){
-    el('error').innerText = "Invalid key.";
+
+    el('error').innerText =
+    "Invalid key.";
+
     lockBtn();
+
     return;
+
   }
+
   myTeam = t;
+
   initOwner(t);
+
 });
 
-/* Initialize UI for given team */
+/* Initialize owner */
 function initOwner(teamNum){
 
-  /* Set button color */
-  const col = TEAM_COLORS[teamNum].base;
-  const glow = TEAM_COLORS[teamNum].glow;
+  /* Set colors */
+  const col =
+  TEAM_COLORS[teamNum].base;
+
+  const glow =
+  TEAM_COLORS[teamNum].glow;
 
   el('bidBtn').style.background = col;
+
   el('bidBtn').style.boxShadow = `
       0 0 20px ${glow},
       0 0 45px ${glow}
   `;
 
-  /* Load team name */
+  /* Team name */
   db.ref("teams/" + teamNum).on("value", snap=>{
-    el('ownerTeam').innerText = snap.val() || ("Team "+teamNum);
+
+    el('ownerTeam').innerText =
+    snap.val() || ("Team "+teamNum);
+
   });
 
-  /* Load max */
+  /* Max bid */
   db.ref("maxBids/" + teamNum).on("value", snap=>{
+
     let v = snap.val();
-    el('myMax').innerText = (v ? v : "—");
+
+    el('myMax').innerText =
+    (v ? v : "—");
+
   });
 
-  /* Live display sync */
+  /* Live display */
   db.ref("liveDisplay").on("value", snap=>{
+
     const d = snap.val();
+
     if(!d) return;
 
-    el('currentBid').innerText = d.currentBid ?? "—";
-    el('currentTeam').innerText = d.currentTeam ?? "—";
+    el('currentBid').innerText =
+    d.currentBid ?? "—";
 
-    // Disable if they are highest bidder
-    if(d.currentTeam === el('ownerTeam').innerText){
+    el('currentTeam').innerText =
+    d.currentTeam ?? "—";
+
+    /* Disable if highest bidder */
+    if(
+      d.currentTeam ===
+      el('ownerTeam').innerText
+    ){
+
       lockBtn();
-    } else {
+
+    }else{
+
       el('bidBtn').disabled = false;
+
       el('bidBtn').style.opacity = 1;
+
     }
+
   });
 
-  /* Show rejections */
-  db.ref("rejections/" + teamNum).on("value", snap=>{
-    const r = snap.val();
-    if(!r){ el('rejectionMsg').innerText = ""; return; }
-    el('rejectionMsg').innerText =
-      `Bid rejected — Max ${r.max}, tried ${r.attempted}`;
-    setTimeout(()=> db.ref("rejections/" + teamNum).remove(), 7000);
-  });
+  /* SEND BID */
 
-  /* Send bid */
+  let localCooldown = false;
+
   el('bidBtn').onclick = ()=>{
+
+    if(localCooldown) return;
+
+    localCooldown = true;
+
+    el('bidBtn').style.opacity = 0.5;
+
     db.ref("latestBid").set({
       teamNum: teamNum,
       time: Date.now()
     });
+
+    setTimeout(()=>{
+
+      localCooldown = false;
+
+      if(
+        el('currentTeam').innerText !==
+        el('ownerTeam').innerText
+      ){
+
+        el('bidBtn').style.opacity = 1;
+
+      }
+
+    },1500);
+
   };
+
 }
 </script>
 
