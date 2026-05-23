@@ -314,10 +314,11 @@ for(let i=1;i<=8;i++){
 
 /* sync team names */
 db.ref('teams').on('value', snap=>{
-  const teams = snap.val() || defaultTeams;
+  const teams = snap.val();
+if(!teams) return;
   for(let i=1;i<=8;i++){
     const el = document.getElementById('t'+i);
-    if(el) el.value = teams[i] || ('Team '+i);
+    if(el) el.value = teams[i] || '';
   }
 });
 
