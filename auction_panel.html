@@ -88,7 +88,6 @@ body{
   margin-top:6px;
 }
 
-/* NOTICE BOX */
 #noticeBox{
   width:92%;
   max-width:360px;
@@ -99,7 +98,10 @@ body{
   color:#ffb3b3;
   font-weight:700;
   text-align:center;
-  display:none;
+  min-height:24px;
+  box-sizing:border-box;
+  opacity:0;
+  transition:opacity 0.2s;
 }
 
 /* Team grid */
@@ -561,13 +563,15 @@ function showNotice(msg){
 
   box.innerText = msg;
 
-  box.style.display = "block";
+  box.style.opacity = "1";
 
   clearTimeout(window.noticeTimer);
 
   window.noticeTimer = setTimeout(()=>{
 
-    box.style.display = "none";
+    box.style.opacity = "0";
+
+    box.innerText = "";
 
   },2000);
 
