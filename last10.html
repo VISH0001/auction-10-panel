@@ -5,121 +5,294 @@
 <title>Last 10 Bids</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700&display=swap" rel="stylesheet">
+
 <style>
-body {
+
+body{
   background:#00101a;
   color:#dffbff;
-  font-family: Arial, sans-serif;
+  font-family:"Lexend",sans-serif;
   padding:20px;
 }
 
-/* Title */
-h2 {
+/* TITLE */
+
+h2{
   text-align:center;
+
   color:#00eaff;
-  font-size:32px;
-  text-shadow:0 0 10px #00eaff;
+
+  font-size:34px;
+
+  text-shadow:
+  0 0 10px #00eaff,
+  0 0 22px #00eaff;
+
   margin-bottom:28px;
 }
 
-/* Container */
-#lineContainer {
-  max-width:320px;   /* SHORT WIDTH */
+/* CONTAINER */
+
+#lineContainer{
+  max-width:360px;
   margin:0 auto;
 }
 
-/* Each Bid Row */
-.bidRow {
+/* EACH BID ROW */
+
+.bidRow{
+
   display:flex;
+
   justify-content:space-between;
+
   align-items:center;
 
-  padding:16px 20px;
-  margin:12px 0;
+  padding:18px 22px;
 
-  border-radius:14px;
+  margin:14px 0;
+
+  border-radius:18px;
+
   color:white;
-  font-size:19px;
+
+  font-size:22px;
+
   font-weight:600;
 
-  box-shadow:0 0 18px rgba(0,0,0,0.35);
-  transition:0.2s;
+  transition:0.22s;
+
+  animation:rowGlow 1.4s infinite alternate;
 }
 
-.bidRow:hover {
+.bidRow:hover{
   transform:scale(1.02);
 }
 
-/* RIGHT SIDE */
-.amount {
-  font-weight:700;
-  font-size:20px;
+/* GLOW PULSE */
+
+@keyframes rowGlow{
+
+  0%{
+    filter:brightness(0.92);
+  }
+
+  100%{
+    filter:brightness(1.12);
+  }
+
 }
+
+/* AMOUNT */
+
+.amount{
+  font-weight:700;
+  font-size:24px;
+}
+
+/* TEAM COLORS */
+
+.team1{
+  background:#1565C0;
+}
+
+.team2{
+  background:#C62828;
+}
+
+.team3{
+  background:#2E7D32;
+}
+
+.team4{
+  background:#6A1B9A;
+}
+
+.team5{
+  background:#EF6C00;
+}
+
+.team6{
+  background:#00838F;
+}
+
+.team7{
+  background:#AD1457;
+}
+
+.team8{
+  background:#5D4037;
+}
+
+.team9{
+  background:#283593;
+}
+
+.team10{
+  background:#9E9D24;
+}
+
 </style>
 </head>
 
 <body>
 
 <h2>Last 10 Bids</h2>
+
 <div id="lineContainer"></div>
 
-<!-- Firebase -->
+<!-- FIREBASE -->
+
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
 <script>
-/* --- Firebase Config --- */
+
+/* FIREBASE */
+
 const firebaseConfig = {
-  apiKey: "AIzaSyCX6FYo5gVgCmds7Xf63xF-Xcg6eIutQmk",
-  authDomain: "auction-71c28.firebaseapp.com",
-  databaseURL: "https://auction-71c28-default-rtdb.asia-southeast1.firebasedatabase.app",
-  projectId: "auction-71c28",
-  storageBucket: "auction-71c28.firebasestorage.app",
-  messagingSenderId: "92883040612",
-  appId: "1:92883040612:web:473f540c99efc20e8d2271"
+
+  apiKey:
+  "AIzaSyCX6FYo5gVgCmds7Xf63xF-Xcg6eIutQmk",
+
+  authDomain:
+  "auction-71c28.firebaseapp.com",
+
+  databaseURL:
+  "https://auction-71c28-default-rtdb.asia-southeast1.firebasedatabase.app",
+
+  projectId:
+  "auction-71c28",
+
+  storageBucket:
+  "auction-71c28.firebasestorage.app",
+
+  messagingSenderId:
+  "92883040612",
+
+  appId:
+  "1:92883040612:web:473f540c99efc20e8d2271"
+
 };
+
 firebase.initializeApp(firebaseConfig);
-const db = firebase.database();
 
-/* --- TEAM COLORS --- */
+const db =
+firebase.database();
+
+/* TEAM COLORS */
+
 const teamColors = {
-  1: { bg:"#0b4d6b", glow:"#11b2ff" },
-  2: { bg:"#5b1b1b", glow:"#ff4747" },
-  3: { bg:"#8a5c00", glow:"#ffbe33" },
-  4: { bg:"#3e1364", glow:"#b46dff" },
-  5: { bg:"#7c2e00", glow:"#ff7a33" },
-  6: { bg:"#00416a", glow:"#40aaff" },
-  7: { bg:"#6b0041", glow:"#ff2ebd" },
-  8: { bg:"#7a4b00", glow:"#ffc233" }
+
+  1:{
+    bg:"#1565C0",
+    glow:"rgba(21,101,192,0.95)"
+  },
+
+  2:{
+    bg:"#C62828",
+    glow:"rgba(198,40,40,0.95)"
+  },
+
+  3:{
+    bg:"#2E7D32",
+    glow:"rgba(46,125,50,0.95)"
+  },
+
+  4:{
+    bg:"#6A1B9A",
+    glow:"rgba(106,27,154,0.95)"
+  },
+
+  5:{
+    bg:"#EF6C00",
+    glow:"rgba(239,108,0,0.95)"
+  },
+
+  6:{
+    bg:"#00838F",
+    glow:"rgba(0,131,143,0.95)"
+  },
+
+  7:{
+    bg:"#AD1457",
+    glow:"rgba(173,20,87,0.95)"
+  },
+
+  8:{
+    bg:"#5D4037",
+    glow:"rgba(93,64,55,0.95)"
+  },
+
+  9:{
+    bg:"#283593",
+    glow:"rgba(40,53,147,0.95)"
+  },
+
+  10:{
+    bg:"#9E9D24",
+    glow:"rgba(158,157,36,0.95)"
+  }
+
 };
 
-/* --- Load last10bids live --- */
-const container = document.getElementById("lineContainer");
+/* LOAD LAST 10 BIDS */
 
-db.ref("last10bids").on("value", snap => {
+const container =
+document.getElementById("lineContainer");
+
+db.ref("last10bids").on("value", snap=>{
+
   container.innerHTML = "";
-  const arr = snap.val() || [];
 
-  arr.forEach((item, index) => {
-    const teamNum = Number(item.teamNum || 1);
-    const colors = teamColors[teamNum] || teamColors[1];
+  const arr =
+  snap.val() || [];
 
-    const opacity = Math.max(0.1, 1 - index * 0.1); // fade older rows
+  arr.forEach((item,index)=>{
 
-    const row = document.createElement("div");
-    row.className = "bidRow";
-    row.style.background = colors.bg;
-    row.style.boxShadow = `0 0 14px ${colors.glow}`;
-    row.style.opacity = opacity;
+    const teamNum =
+    Number(item.teamNum || 1);
+
+    const colors =
+    teamColors[teamNum] ||
+    teamColors[1];
+
+    const opacity =
+    Math.max(0.18, 1 - index * 0.1);
+
+    const row =
+    document.createElement("div");
+
+    row.className =
+    "bidRow";
+
+    row.style.background =
+    colors.bg;
+
+    row.style.boxShadow =
+    `
+    0 0 12px ${colors.glow},
+    0 0 22px ${colors.glow},
+    0 0 36px ${colors.glow}
+    `;
+
+    row.style.opacity =
+    opacity;
 
     row.innerHTML = `
       <span>${item.team}</span>
-      <span class="amount">${item.amount} Cr</span>
+      <span class="amount">
+        ${item.amount} Cr
+      </span>
     `;
 
     container.appendChild(row);
+
   });
+
 });
+
 </script>
 
 </body>
